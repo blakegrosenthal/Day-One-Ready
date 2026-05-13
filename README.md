@@ -12,7 +12,7 @@ npm run dev
 The app includes:
 
 - HR Dashboard
-- Start Group
+- Start Group Readiness
 - New Hire Profile
-- New Hire View
+- New Hire Preview
 - Reminder Center

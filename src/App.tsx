@@ -6,7 +6,6 @@ import {
   CalendarDays,
   Check,
   ChevronRight,
-  CircleHelp,
   ClipboardCheck,
   Clock3,
   FileText,
@@ -73,7 +72,7 @@ const hires: Hire[] = [
     location: 'Austin, TX',
     startDate: 'Monday, May 12',
     status: 'Blocked',
-    blockingIssue: 'ID appears expired',
+    blockingIssue: 'Hire reported expired ID',
     lastActivity: 'Uploaded ID yesterday',
     suggestedAction: 'Contact before start date',
   },
@@ -140,7 +139,7 @@ const reminders: Reminder[] = [
   },
   {
     category: 'Start date soon',
-    person: 'All not-ready hires',
+    person: 'Hires with open steps',
     title: 'Final readiness reminder',
     message:
       'Your first day is coming up. Please review your arrival details and complete any remaining steps.',
@@ -149,9 +148,9 @@ const reminders: Reminder[] = [
 
 const navItems = [
   { id: 'hr', label: 'HR Dashboard', icon: Home },
-  { id: 'group', label: 'Start Group', icon: Users },
+  { id: 'group', label: 'Start Group Readiness', icon: Users },
   { id: 'profile', label: 'New Hire Profile', icon: UserRound },
-  { id: 'newHire', label: 'New Hire View', icon: Phone },
+  { id: 'newHire', label: 'New Hire Preview', icon: Phone },
   { id: 'reminders', label: 'Reminder Center', icon: Send },
 ] satisfies Array<{ id: View; label: string; icon: typeof Home }>
 
@@ -236,17 +235,17 @@ function HrDashboard() {
       <section className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm sm:p-6">
         <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
           <div>
-            <p className="text-sm font-semibold text-[#0f766e]">Onboarding Readiness Assistant</p>
+            <p className="text-sm font-semibold text-[#0f766e]">Onboarding readiness</p>
             <h2 className="mt-2 max-w-4xl text-3xl font-semibold text-slate-950 sm:text-4xl">
-              Reduce over-hiring and last-minute onboarding failures
+              Know who's day-one ready before they show up
             </h2>
             <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-700">
-              A day-one readiness tool that helps new hires show up prepared and helps HR catch
-              problems before they become first-day failures.
+              A readiness view for HR and a one-step-at-a-time experience for new hires, so
+              problems get caught before the first day, not on it.
             </p>
             <p className="mt-4 max-w-4xl text-sm leading-6 text-slate-600">
-              Most onboarding tools manage paperwork. This helps HR know who is actually ready, who
-              is at risk, and what is blocking each person before the first day.
+              Live readiness across your current start groups. See who's ready, who needs
+              follow-up, and what's blocking each new hire before their start date.
             </p>
           </div>
           <div className="rounded-lg border border-[#bae6fd] bg-[#f0f9ff] p-4">
@@ -270,7 +269,7 @@ function HrDashboard() {
       </section>
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-6">
-        <MetricCard label="Needed" value="10" icon={Users} />
+        <MetricCard label="Headcount target" value="10" icon={Users} />
         <MetricCard label="Offers accepted" value="12" icon={BadgeCheck} />
         <MetricCard label="Ready" value="8" tone="green" icon={ShieldCheck} />
         <MetricCard label="At risk" value="3" tone="amber" icon={AlertTriangle} />
@@ -304,12 +303,12 @@ function HrDashboard() {
       <section className="grid gap-4 xl:grid-cols-[1fr_0.78fr]">
         <InfoPanel
           title="How this is different"
-          body="Most onboarding tools help manage paperwork, e-signatures, and employee records. Onboarding Readiness Assistant focuses on the operational question HR needs answered before day one: who is ready, who is at risk, and what is blocking them?"
+          body="Most onboarding tools manage paperwork, e-signatures, and employee records. Day-One Ready focuses on the operational question HR needs answered before the first day: who is ready, who needs support, and what's blocking them."
           bullets={[
             'Shows readiness before the start date',
-            'Flags blockers like expired IDs, incomplete forms, phone-only access, and unopened onboarding links',
-            'Helps HR act before day-one failures happen',
-            'Supports over-hiring decisions by showing how many accepted hires are actually ready',
+            'Surfaces blockers from what new hires report and from onboarding activity',
+            'Helps HR act before issues become first-day blockers',
+            'Helps HR decide when to keep backup candidates warm',
             'Guides new hires one step at a time instead of overwhelming them with a giant checklist',
           ]}
         />
@@ -321,8 +320,10 @@ function HrDashboard() {
             <div>
               <h3 className="text-lg font-semibold text-slate-950">Feature boundaries</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                This prototype does not replace I-9, E-Verify, payroll, tax advice, or your HRIS.
-                It helps HR catch readiness issues earlier and guide new hires through the process.
+                Day-One Ready does not replace I-9, E-Verify, payroll, tax filing, or your HRIS. It
+                does not verify official documents or make employment decisions. It helps HR see
+                readiness earlier, and helps new hires complete the steps they need before their
+                first day.
               </p>
             </div>
           </div>
@@ -334,7 +335,7 @@ function HrDashboard() {
 
 function StartGroup() {
   const actions = [
-    'Contact James about expired ID today',
+    'Follow up with James about reported expired ID today',
     'Send SMS reminder to Marcus, who has not opened onboarding',
     'Offer Maria a 10-minute support call',
     'Send Sofia tax form guidance',
@@ -345,12 +346,12 @@ function StartGroup() {
     <div className="grid gap-5">
       <PageHeader
         eyebrow="Start group"
-        title="Austin Food Service Associate Start Group"
-        description="A live readiness view for the Monday start group, focused on the hires needed to safely staff the role."
+        title="Start Group · Austin Food Service Associates"
+        description="A live readiness view for the Monday start group, focused on who is ready, who needs support, and what needs follow-up before the start date."
       />
 
       <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
-        <MetricCard label="Needed" value="10" icon={Users} />
+        <MetricCard label="Headcount target" value="10" icon={Users} />
         <MetricCard label="Offers accepted" value="12" icon={BadgeCheck} />
         <MetricCard label="Fully ready" value="8" tone="green" icon={ShieldCheck} />
         <MetricCard label="At risk" value="3" tone="amber" icon={AlertTriangle} />
@@ -375,7 +376,7 @@ function StartGroup() {
           title="Start group risk summary"
           items={[
             '2 more hires must become ready before Monday',
-            '1 hire is blocked by an expired ID issue',
+            '1 hire reported an expired ID',
             '3 hires need action before the start date',
             'Backup candidates should stay warm until 10 hires are fully ready',
           ]}
@@ -441,12 +442,12 @@ function NewHireProfile() {
         </section>
         <section className="grid gap-4 md:grid-cols-2">
           <IssuePanel
-            title="Critical blockers"
+            title="Blockers"
             tone="red"
             items={['ID not confirmed', 'Device access not confirmed']}
           />
           <IssuePanel
-            title="Incomplete steps"
+            title="Open steps"
             tone="amber"
             items={['Tax forms incomplete', 'First-day instructions not viewed']}
           />
@@ -460,7 +461,7 @@ function NewHireProfile() {
             {[
               'Send SMS reminder',
               'Offer support call',
-              'Confirm whether ID is valid before Friday',
+              "Follow up on Maria's ID status before Friday",
             ].map((item) => (
               <div key={item} className="flex items-center gap-3 rounded-lg bg-slate-50 p-3">
                 <span className="flex size-7 items-center justify-center rounded-lg bg-[#ecfdf5] text-[#0f766e]">
@@ -524,9 +525,9 @@ function NewHireView({
 
       <section className="grid content-start gap-4">
         <PageHeader
-          eyebrow="New hire mobile flow"
-          title="Maria sees one clear next step"
-          description="The new-hire side is intentionally simpler than the HR dashboard, so Maria can resolve blockers without facing a giant checklist."
+          eyebrow="New hire preview"
+          title="One step at a time"
+          description="Welcome, Maria. Let's get you ready for your first day, one step at a time. If anything's unclear, you can ask for help anytime."
         />
         <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
           <h3 className="text-lg font-semibold text-slate-950">New hire screens</h3>
@@ -558,20 +559,6 @@ function NewHireView({
             })}
           </div>
         </section>
-        <section className="rounded-lg border border-violet-200 bg-violet-50 p-4">
-          <div className="flex items-start gap-3">
-            <span className="flex size-9 items-center justify-center rounded-lg bg-violet-600 text-white">
-              <CircleHelp size={18} />
-            </span>
-            <div>
-              <h3 className="font-semibold text-slate-950">Admin impact</h3>
-              <p className="mt-1 text-sm leading-6 text-slate-700">
-                If Maria taps that she is unsure, has an expired ID, or needs help, HR sees a
-                precise readiness flag before Monday.
-              </p>
-            </div>
-          </div>
-        </section>
       </section>
     </div>
   )
@@ -593,7 +580,7 @@ function ReminderCenter() {
       <PageHeader
         eyebrow="HR actions"
         title="Reminder Center"
-        description="Fast, specific reminders tied to readiness blockers, not a generic onboarding nudge."
+        description="Specific, ready-to-send reminders tied to each new hire's open step. Pick a category, review the message, and send by SMS or email."
       />
 
       <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
@@ -672,13 +659,16 @@ function NewHireHome({ onStepChange }: { onStepChange: (step: NewHireStep) => vo
       <div>
         <h2 className="text-2xl font-semibold text-slate-950">Welcome, Maria</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Let's get you ready for your first day. We'll take it one step at a time.
+          Let's get you ready for your first day, one step at a time. If anything's unclear, you can
+          ask for help anytime.
         </p>
       </div>
       <section className="rounded-lg border border-slate-200 bg-white p-4">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold text-slate-950">4 of 7 steps complete</p>
-          <StatusBadge status="At risk" />
+          <span className="inline-flex rounded-md border border-amber-200 bg-amber-50 px-2.5 py-1 text-xs font-bold text-amber-700">
+            Needs attention
+          </span>
         </div>
         <div className="mt-3 h-2 overflow-hidden rounded-lg bg-slate-100">
           <div className="h-full w-[57%] rounded-lg bg-[#0f766e]" />
@@ -686,7 +676,7 @@ function NewHireHome({ onStepChange }: { onStepChange: (step: NewHireStep) => vo
         <p className="mt-3 text-sm font-medium text-slate-700">
           Your first day is Monday, May 12
         </p>
-        <p className="mt-1 text-sm text-amber-700">At risk: 3 steps need attention</p>
+        <p className="mt-1 text-sm text-amber-700">3 steps need attention</p>
       </section>
 
       <section className="grid gap-2">
@@ -726,8 +716,8 @@ function NewHireHome({ onStepChange }: { onStepChange: (step: NewHireStep) => vo
       <section className="rounded-lg border border-amber-200 bg-amber-50 p-4">
         <p className="text-sm font-semibold text-slate-950">Next step: Check your ID</p>
         <p className="mt-2 text-sm leading-6 text-slate-700">
-          Make sure your ID is not expired and the name matches your legal name. If you are not
-          sure, ask HR before your first day.
+          Check whether your ID is expired and whether the name matches your legal name. If you are
+          not sure, ask HR before your first day.
         </p>
         <div className="mt-3 grid gap-2">
           {['My ID is valid', 'My ID is expired', "I'm not sure", 'I need help'].map((label) => (
@@ -756,8 +746,8 @@ function IdReadinessStep() {
   return (
     <StepLayout title="Check your ID">
       <p className="text-sm leading-6 text-slate-600">
-        To complete onboarding, your ID must be valid and not expired. The name should match the
-        legal name you entered.
+        For onboarding, your ID should be current and not expired. The name should match the legal
+        name you entered.
       </p>
       <QuestionGroup
         label="Is your ID expired?"
@@ -783,7 +773,7 @@ function IdReadinessStep() {
       </p>
       {hasIssue && (
         <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm font-semibold leading-6 text-red-700">
-          ID issue detected. HR should contact new hire before start date.
+          ID support flag: HR should follow up before the start date.
         </p>
       )}
       <div className="grid gap-2">
@@ -832,7 +822,7 @@ function DeviceStep() {
       />
       {phoneOnly && (
         <p className="rounded-lg border border-violet-200 bg-violet-50 p-3 text-sm font-semibold text-violet-700">
-          Device risk: phone only
+          Device support flag: phone only
         </p>
       )}
       <button className="rounded-lg bg-[#0f766e] px-4 py-3 text-sm font-semibold text-white">
